@@ -20,7 +20,7 @@ var methodOverride = require('method-override')
 app.use(methodOverride('_method'))
 
 // import config system variables
-const systemConfig = require("./config/system");
+const systemConfig = require(`${__dirname}/config/system`);
 
 // app local variable
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
@@ -38,8 +38,8 @@ app.set('views', `${__dirname}/views`);
 app.set('view engine', 'pug');
 
 // import router
-const route = require("./routes/client/index.route");
-const routeAdmin = require("./routes/admin/index.route");
+const route = require(`${__dirname}/routes/client/index.route`);
+const routeAdmin = require(`${__dirname}/routes/admin/index.route`);
 
 
 // connect database
