@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "client": "sass --watch public/scss:public/css",
+    "admin": "sass --watch public/admin/scss:public/admin/css",
     "start": "npx nodemon --inspect index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,9 +12,18 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "body-parser": "^1.20.3",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
-    "pug": "^3.0.3"
+    "express-flash": "^0.0.2",
+    "express-session": "^1.18.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.7.1",
+    "mongoose-slug-updater": "^3.3.0",
+    "multer": "^1.4.5-lts.1",
+    "pug": "^3.0.3",
+    "sass": "^1.79.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"

@@ -1,24 +1,54 @@
 // cấu hình express
 const express = require('express');
 const app = express();
-require('dotenv').config();
 
+// (notification) express flash
+var flash = require('express-flash');
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+app.use(cookieParser('trinhcongduy'));
+app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(flash());
+
+
+// cau hinh body-parse de xu ly data tu form len sever
+var bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// cau hinh orverride methood
+var methodOverride = require('method-override')
+app.use(methodOverride('_method'))
+
+// import config system variables
+const systemConfig = require("./config/system");
+
+// app local variable
+app.locals.prefixAdmin = systemConfig.prefixAdmin;
+
+// import file .env
+require('dotenv').config();
 const port = process.env.PORT;
 
 
-// đưa các file trong public ra public
-app.use(express.static('public'));
+// đưa các file trong public ra public (su dung trong pug)
+app.use(express.static(`${__dirname}/public`));
 
 // sử dụng pug
-app.set('views', './views');
+app.set('views', `${__dirname}/views`);
 app.set('view engine', 'pug');
 
 // import router
 const route = require("./routes/client/index.route");
+const routeAdmin = require("./routes/admin/index.route");
+
+
+// connect database
+const mongo = require(`${__dirname}/config/database`);
+mongo.connect();
 
 // goi cac ham route
 route(app);
-
+routeAdmin(app);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
