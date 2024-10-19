@@ -27,8 +27,7 @@ app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
 // import file .env
 require('dotenv').config();
-// const port = process.env.PORT;
-const port = 3000;
+const port = process.env.PORT;
 
 
 // đưa các file trong public ra public (su dung trong pug)
