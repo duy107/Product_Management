@@ -97,18 +97,18 @@ module.exports.changeMulti = async (req, res) => {
     res.redirect("back");
 }
 
+// [DELETE]: /admin/product/delete-item/:id
+module.exports.deleteItem = async (req, res) => {
+    const id = req.params.id;
+    await Product.deleteOne({_id: id});
+    res.redirect("/admin/product");
+}
 //[DELETE]: /admin/product/delete-item/:id
 // module.exports.deleteItem = async (req, res) => {
 //     const id = req.params.id;
-//     await Product.deleteOne({_id: id});
+//     await Product.updateOne({ _id: id }, { deleted: true, deletedAt: getTimeHelper() });
 //     res.redirect("/admin/product");
 // }
-//[DELETE]: /admin/product/delete-item/:id
-module.exports.deleteItem = async (req, res) => {
-    const id = req.params.id;
-    await Product.updateOne({ _id: id }, { deleted: true, deletedAt: getTimeHelper() });
-    res.redirect("/admin/product");
-}
 
 //[GET]: /admin/product/create-product
 module.exports.createProduct = (req, res) => {
@@ -129,9 +129,11 @@ module.exports.createProductPost = async (req, res) => {
     } else {
         data.position = parseInt(data.position);
     }
-    if (req.file) {
-        data.image = `/uploads/${req.file.filename}`;
-    }
+
+    // if (req.file) {
+    //     data.image = `/uploads/${req.file.filename}`;
+    // }
+    
     const newProduct = new Product(data);
     await newProduct.save();
     res.redirect(`${config.prefixAdmin}/product`);
@@ -164,9 +166,9 @@ module.exports.updatePatch = async (req, res) => {
     data.quantity = parseInt(data.quantity);
     data.discount = parseInt(data.discount);
     data.position = parseInt(data.position);
-    if (req.file) {
-        data.image = `/uploads/${req.file.filename}`;
-    }
+    // if (req.file) {
+    //     data.image = `/uploads/${req.file.filename}`;
+    // }
     try {
         await Product.updateOne({_id: id}, req.body);
         res.redirect("back");

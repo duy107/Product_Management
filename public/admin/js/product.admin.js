@@ -1,9 +1,9 @@
 // delete
 const buttonDelete = document.querySelectorAll("[button-delete-item]");
 if (buttonDelete.length > 0) {
+    const formDelete = document.querySelector("#form-delete-item");
+    const path = formDelete.getAttribute("data-path");
     buttonDelete.forEach(button => {
-        const formDelete = document.querySelector("#form-delete-item");
-        const path = formDelete.getAttribute("data-path");
         button.addEventListener("click", () => {
             if (confirm("Xác nhận xóa?")) {
                 const id = button.getAttribute("data-id");
