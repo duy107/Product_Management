@@ -1,6 +1,7 @@
 // cấu hình express
 const express = require('express');
 const app = express();
+var path = require('path');
 
 // (notification) express flash
 var flash = require('express-flash');
@@ -8,8 +9,10 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 app.use(cookieParser('trinhcongduy'));
 app.use(session({ cookie: { maxAge: 60000 }}));
-app.use(flash());
+app.use(flash()); 
 
+// tynimce
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
 // cau hinh body-parse de xu ly data tu form len sever
 var bodyParser = require('body-parser')

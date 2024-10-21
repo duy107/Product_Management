@@ -1,0 +1,14 @@
+mixin sort ()
+    .row.align-items-center
+        .col-4
+            div(sort)
+                select(name="sort" class="form-control" sort-select)
+                    //- option(disabled selected) --Sort--
+                    option(value="price-asc") Giá tăng dần
+                    option(value="price-desc") Giá giảm dần
+                    option(value="position-desc" selected) Vị trí giảm dần
+                    option(value="position-asc") Vị trí tăng dần
+                    option(value="title-asc") Tiêu đề A-Z
+                    option(value="title-desc") Tiêu đề Z-A
+        .col-2
+            button(class="btn btn-danger btn-sm" sort-clear) Clear

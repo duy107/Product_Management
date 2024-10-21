@@ -38,8 +38,8 @@ if (uploadImage) {
     const uploadImageInput = uploadImage.querySelector("[upload-image-input]");
     const uploadImagePreview = uploadImage.querySelector("[upload-image-preview]");
     const uploadImageClose = uploadImage.querySelector("[upload-image-close]");
-    if(uploadImagePreview.src == ""){
-       document.querySelector(".preview-image").classList.add("hidden");
+    if (uploadImagePreview.src == "") {
+        document.querySelector(".preview-image").classList.add("hidden");
     }
     uploadImageInput.addEventListener("change", (e) => {
         // create URL for image
@@ -52,5 +52,33 @@ if (uploadImage) {
         uploadImageInput.value = "";
         uploadImagePreview.src = "";
         uploadImageClose.classList.add("hidden")
+    })
+}
+
+
+//sort
+const sort = document.querySelector("[sort]");
+let url = new URL(window.location.href);
+if (sort) {
+    const sortSelect = sort.querySelector(["[sort-select]"]);
+    sortSelect.addEventListener("change", (e) => {
+        const [name, value] = e.target.value.split("-");
+        url.searchParams.set("sortKey", name);
+        url.searchParams.set("sortValue", value);
+        window.location.href = url;
+    })
+    const sortKey = url.searchParams.get("sortKey");
+    const sortValue = url.searchParams.get("sortValue");
+
+    if(sortKey && sortValue){
+        sortSelect.querySelector(`option[value="${sortKey}-${sortValue}"]`).selected = true;
+    }   
+}   
+const sortClear = document.querySelector("[sort-clear]");
+if(sortClear){
+    sortClear.addEventListener("click", () => {
+        url.searchParams.delete("sortKey");
+        url.searchParams.delete("sortValue");
+        window.location.href  = url;
     })
 }
