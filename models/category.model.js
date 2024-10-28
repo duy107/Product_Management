@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
-const getTime = require("../helpers/getTime");
+// const getTime = require("../helpers/getTime");
 const slug = require('mongoose-slug-updater');
+const getTime = require("../helpers/getTime");
 mongoose.plugin(slug);
 const categorySchema = new mongoose.Schema({
     title: String,
@@ -22,7 +23,14 @@ const categorySchema = new mongoose.Schema({
 
     deletedAt: String,
     status: String,
-    position: Number
+    position: Number,
+    createdBy: {
+        account_id: String,
+        createdAt: {
+            type: Date,
+            default: Date.now
+        }
+    }
 }, {
     timestamps: true
 });

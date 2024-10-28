@@ -1,46 +1,55 @@
 extends ../../layout/default
 include ../../mixins/alert.pug
+include ../../mixins/treeCategory.pug
 block main
-    +alert(5000)
-    h1 CREATE
-    form(
-        id="form-create-product"
-        method="POST"
-        action=`${prefixAdmin}/product/create-product`
-        enctype="multipart/form-data"
-    )
-        div(class="form-group")
-            label(for="title") Tiêu đề 
-            input(id="title" name="title" type="text" class="form-control") 
-        div(class="form-group")
-            label(for="desc") Mô tả 
-            textarea(id="desc" name="description" rows="5" class="form-control tinymce") 
-        div(class="form-group")
-            label(for="price") Giá 
-            input(id="price" name="price" type="number" class="form-control" value="0" min="0") 
-        div(class="form-group")
-            label(for="discount") % Giảm giá
-            input(id="discount" name="discount" type="number" class="form-control" value="0" min="0") 
-        div(class="form-group")
-            label(for="quantity") Số lượng
-            input(id="quantity" name="quantity" type="number" class="form-control" min="0" value="1") 
-        div(class="form-group" upload-image)
-            label(for="image") Ảnh
-            input(id="image" name="image" type="file" class="form-control" accept="image/*" upload-image-input)
-            div(class="preview-image")
-                img(upload-image-preview)
-                span(upload-image-close) x 
-        div(class="form-group")
-            label(for="position") Vị trí
-            input(id="position" name="position" type="number" class="form-control" min="1" placeholder="Tự động tăng") 
-        div(class="form-group form-check form-check-inline")
-            input(id="statusActive" name="status" type="radio" class="form-check-input" value="active" checked) 
-            label(for="statusActive" class="form-check-label") Active
-        div(class="form-group form-check form-check-inline")
-            input(id="statusInactive" name="status" type="radio" class="form-check-input" value="inactive") 
-            label(for="statusInactive" class="form-check-label") Inactive
-        div(class="form-group")
-            button(class="btn btn-primary btn-sm" type="submit") CREATE
+    if(role.permissions.includes("products_view"))
+        if(role.permissions.includes("products_create"))
+            +alert(5000)
+            h1 CREATE
+            form(
+                id="form-create-product"
+                method="POST"
+                action=`${prefixAdmin}/product/create-product`
+                enctype="multipart/form-data"
+            )
+                div(class="form-group")
+                    label(for="title") Tiêu đề 
+                    input(id="title" name="title" type="text" class="form-control") 
+                div(class="form-group")
+                    label(for="parent_id") Danh mục
+                    select(id="parent_id" name="category_id" class="form-control")
+                        option(value="") --Chọn danh mục--
+                        if(records)
+                        +treeCategory(records)
+                div(class="form-group")
+                    label(for="desc") Mô tả 
+                    textarea(id="desc" name="description" rows="5" class="form-control tinymce") 
+                div(class="form-group")
+                    label(for="price") Giá 
+                    input(id="price" name="price" type="number" class="form-control" value="0" min="0") 
+                div(class="form-group")
+                    label(for="discount") % Giảm giá
+                    input(id="discount" name="discount" type="number" class="form-control" value="0" min="0") 
+                div(class="form-group")
+                    label(for="quantity") Số lượng
+                    input(id="quantity" name="quantity" type="number" class="form-control" min="0" value="1") 
+                div(class="form-group" upload-image)
+                    label(for="image") Ảnh
+                    input(id="image" name="image" type="file" class="form-control-file" accept="image/*" upload-image-input)
+                    div(class="preview-image")
+                        img(upload-image-preview)
+                        span(upload-image-close) x 
+                div(class="form-group")
+                    label(for="position") Vị trí
+                    input(id="position" name="position" type="number" class="form-control" min="1" placeholder="Tự động tăng") 
+                div(class="form-group form-check form-check-inline")
+                    input(id="statusActive" name="status" type="radio" class="form-check-input" value="active" checked) 
+                    label(for="statusActive" class="form-check-label") Active
+                div(class="form-group form-check form-check-inline")
+                    input(id="statusInactive" name="status" type="radio" class="form-check-input" value="inactive") 
+                    label(for="statusInactive" class="form-check-label") Inactive
+                div(class="form-group")
+                    button(class="btn btn-primary btn-sm" type="submit") CREATE
 
     script(src="/admin/js/product.admin.js")
      

@@ -1,11 +1,13 @@
 //[GET]: /admin/product
 const config = require("../../config/system")
 const Product = require("../../models/product.model");
+const Category = require("../../models/category.model");
+const Account = require("../../models/account.model");
 const filterButtonHelper = require("../../helpers/filterButton");
 const searchHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
 const getTimeHelper = require("../../helpers/getTime");
-
+const createTree = require("../../helpers/createTree");
 //[GET]: /admin/product
 module.exports.product = async (req, res) => {
 
@@ -43,16 +45,28 @@ module.exports.product = async (req, res) => {
     );
 
     let sort = {};
-    if(req.query.sortKey && req.query.sortValue){
+    if (req.query.sortKey && req.query.sortValue) {
         sort[req.query.sortKey] = req.query.sortValue;
-    }else{
+    } else {
         sort.position = "desc";
     }
-
     const products = await Product.find(find)
         .sort(sort)
         .limit(objectPagination.limitItems)
         .skip(objectPagination.skip);
+    for (const product of products) {
+        const user = await Account.findOne({ _id: product.createdBy.account_id });
+        if (user) {
+            product.createdBy.fullName = user.fullName;
+        }
+
+        const userLastUpdated = product.updatedBy.slice(-1)[0];
+
+        if(userLastUpdated){
+            const detail = await Account.findOne({_id: userLastUpdated.account_id});
+            userLastUpdated.fullName = detail.fullName;
+        }
+    }
 
     res.render("admin/pages/product", {
         pageTitle: "Trang sản phẩm",
@@ -105,23 +119,40 @@ module.exports.changeMulti = async (req, res) => {
 }
 
 // [DELETE]: /admin/product/delete-item/:id
-module.exports.deleteItem = async (req, res) => {
-    const id = req.params.id;
-    await Product.deleteOne({_id: id});
-    res.redirect("/admin/product");
-}
-//[DELETE]: /admin/product/delete-item/:id
 // module.exports.deleteItem = async (req, res) => {
 //     const id = req.params.id;
-//     await Product.updateOne({ _id: id }, { deleted: true, deletedAt: getTimeHelper() });
+//     await Product.deleteOne({ _id: id });
 //     res.redirect("/admin/product");
 // }
+//[DELETE]: /admin/product/delete-item/:id
+module.exports.deleteItem = async (req, res) => {
+    const id = req.params.id;
+    await Product.updateOne({ _id: id }, {
+        deleted: true,
+        deletedBy: {
+            account_id: res.locals.user.id,
+            deletedAt: new Date()
+        }
+    });
+    res.redirect("/admin/product");
+}
 
 //[GET]: /admin/product/create-product
-module.exports.createProduct = (req, res) => {
-    res.render("admin/pages/product/create.pug", {
-        pageTitle: "Tạo mới sản phẩm"
-    })
+module.exports.createProduct = async (req, res) => {
+    const find = {
+        deleted: false
+    };
+    try {
+        // throw new Error("Ngoại lệ đã xảy ra!");
+        const records = await Category.find(find);
+        const newRecords = createTree(records);
+        res.render("admin/pages/product/create.pug", {
+            pageTitle: "Tạo mới sản phẩm",
+            records: newRecords
+        })
+    } catch (error) {
+        res.send("Đã xảy ra lỗi trong quá trình xử lý");
+    }
 }
 //[POST]: /admin/product/create-product
 module.exports.createProductPost = async (req, res) => {
@@ -137,10 +168,12 @@ module.exports.createProductPost = async (req, res) => {
         data.position = parseInt(data.position);
     }
 
+    data.createdBy = {
+        account_id: res.locals.user.id
+    }
     // if (req.file) {
     //     data.image = `/uploads/${req.file.filename}`;
     // }
-    
     const newProduct = new Product(data);
     await newProduct.save();
     res.redirect(`${config.prefixAdmin}/product`);
@@ -155,9 +188,12 @@ module.exports.update = async (req, res) => {
             _id: id
         };
         const product = await Product.findOne(find);
+        const records = await Category.find({ deleted: false });
+        const newRecords = createTree(records);
         res.render("admin/pages/product/edit", {
             pageTitle: "Chỉnh sửa sản phẩm",
-            product: product
+            product: product,
+            records: newRecords
         });
     } catch (error) {
         req.flash("error", "Id không tồn tại");
@@ -177,7 +213,14 @@ module.exports.updatePatch = async (req, res) => {
     //     data.image = `/uploads/${req.file.filename}`;
     // }
     try {
-        await Product.updateOne({_id: id}, req.body);
+        const updatedBy = {
+            account_id: res.locals.user.id,
+            updatedAt: new Date()
+        }
+        await Product.updateOne({ _id: id }, {
+            ...req.body,
+            $push: {updatedBy: updatedBy}
+        });
         res.redirect("back");
     } catch (error) {
     }

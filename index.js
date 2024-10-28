@@ -2,6 +2,7 @@
 const express = require('express');
 const app = express();
 var path = require('path');
+const moment = require("moment");
 
 // (notification) express flash
 var flash = require('express-flash');
@@ -25,8 +26,9 @@ app.use(methodOverride('_method'))
 // import config system variables
 const systemConfig = require(`${__dirname}/config/system`);
 
-// app local variable
+// app local variable (su dụng cho pug)
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
+app.locals.moment = moment;
 
 // import file .env
 require('dotenv').config();

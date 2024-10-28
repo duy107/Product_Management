@@ -1,36 +1,42 @@
 extends ../../layout/default
+include ../../mixins/treeCategory.pug
 block main
-    form(
-        id="form-create-product"
-        method="POST"
-        action=`${prefixAdmin}/product-category/create?_method=POST`
-        enctype="multipart/form-data"
-    )
-        div(class="form-group")
-            label(for="title") Tiêu đề 
-            input(id="title" name="title" type="text" class="form-control")
-        div(class="form-group")
-            label(for="parent_id") Danh mục cha 
-            input(id="parent_id" name="parent_id" type="text" class="form-control")
-        div(class="form-group")
-            label(for="desc") Mô tả 
-            textarea(id="desc" name="description" rows="5" class="form-control tinymce") 
-        div(class="form-group" upload-image)
-            label(for="image") Ảnh
-            input(id="image" name="image" type="file" class="form-control" accept="image/*" upload-image-input)
-            div(class="preview-image")
-                img(upload-image-preview)
-                span(upload-image-close) x 
-        div(class="form-group")
-            label(for="position") Vị trí
-            input(id="position" name="position" type="number" class="form-control" min="1" placeholder="Tự động tăng") 
-        div(class="form-group form-check form-check-inline")
-            input(id="statusActive" name="status" type="radio" class="form-check-input" value="active" checked) 
-            label(for="statusActive" class="form-check-label") Active
-        div(class="form-group form-check form-check-inline")
-            input(id="statusInactive" name="status" type="radio" class="form-check-input" value="inactive") 
-            label(for="statusInactive" class="form-check-label") Inactive
-        div(class="form-group")
-            button(class="btn btn-primary btn-sm" type="submit") CREATE
+    if(role.permissions.includes("products-category_view"))
+        if(role.permissions.includes("products-category_create"))
+            form(
+                id="form-create-product"
+                method="POST"
+                action=`${prefixAdmin}/product-category/create?_method=POST`
+                enctype="multipart/form-data"
+            )
+                div(class="form-group")
+                    label(for="title") Tiêu đề 
+                    input(id="title" name="title" type="text" class="form-control")
+                div(class="form-group")
+                    label(for="parent_id") Danh mục cha 
+                    select(id="parent_id" name="parent_id" class="form-control")
+                        option(value="") --Chọn danh mục cha--
+                        if(records)
+                        +treeCategory(records)
+                div(class="form-group")
+                    label(for="desc") Mô tả 
+                    textarea(id="desc" name="description" rows="5" class="form-control tinymce") 
+                div(class="form-group" upload-image)
+                    label(for="image") Ảnh
+                    input(id="image" name="image" type="file" class="form-control" accept="image/*" upload-image-input)
+                    div(class="preview-image")
+                        img(upload-image-preview)
+                        span(upload-image-close) x 
+                div(class="form-group")
+                    label(for="position") Vị trí
+                    input(id="position" name="position" type="number" class="form-control" min="1" placeholder="Tự động tăng") 
+                div(class="form-group form-check form-check-inline")
+                    input(id="statusActive" name="status" type="radio" class="form-check-input" value="active" checked) 
+                    label(for="statusActive" class="form-check-label") Active
+                div(class="form-group form-check form-check-inline")
+                    input(id="statusInactive" name="status" type="radio" class="form-check-input" value="inactive") 
+                    label(for="statusInactive" class="form-check-label") Inactive
+                div(class="form-group")
+                    button(class="btn btn-primary btn-sm" type="submit") CREATE
 
     script(src="/admin/js/product.admin.js") 

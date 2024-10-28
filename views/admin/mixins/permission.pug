@@ -1,0 +1,11 @@
+mixin permission(title, typePermission)
+    - const name = ["Chi tiết", "Thêm mới", "Chỉnh sửa", "Xóa"]
+    tr(style="pointer-events: none")
+        td(colspan=records.length+1 style="background: #F0F3FA")
+            strong.opacity-25 #{title}
+    each item, index in typePermission
+        tr(data-name=item)
+            td #{name[index]}
+            each item in records
+                td.text-center
+                    input(type="checkbox")

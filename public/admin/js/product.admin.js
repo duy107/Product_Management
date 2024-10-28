@@ -49,7 +49,7 @@ if (uploadImage) {
         document.querySelector(".preview-image").classList.remove("hidden");
     })
     uploadImageClose.addEventListener('click', () => {
-        uploadImageInput.value = "";
+        // uploadImageInput.value = "";
         uploadImagePreview.src = "";
         uploadImageClose.classList.add("hidden")
     })

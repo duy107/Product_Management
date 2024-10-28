@@ -1,6 +1,6 @@
 const express = require("express");
 const validate = require("../../validates/admin/product.validate");
-const uploadCloud = require("../../middlewares/uploadCloud.middleware");
+const uploadCloud = require("../../middlewares/admin/uploadCloud.middleware");
 // const storageMulter = require("../../helpers/storageMulter");
 // upload image
 const multer = require('multer')

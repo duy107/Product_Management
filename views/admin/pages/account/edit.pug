@@ -1,0 +1,51 @@
+extends ../../layout/default
+include ../../mixins/alert
+block main
+    if(roles.length > 0)
+        +alert(5000)
+        form(
+            id="form-edit-account"
+            method="POST"
+            action=`${prefixAdmin}/account/edit/${record.id}?_method=PATCH`
+            enctype="multipart/form-data"
+        )
+            div(class="form-group") Họ và tên
+                label(for="fullName") 
+                input(id="fullName" name="fullName" type="text" class="form-control" value=record.fullName required) 
+            div(class="form-group")
+                label(for="email") Email 
+                input(id="email" name="email" type="email" class="form-control" value=record.email required) 
+            div(class="form-group")
+                label(for="password") Mật khẩu
+                input(id="password" name="password" type="password" placeholder="Không nhập nếu không đổi..." class="form-control") 
+            div(class="form-group")
+                label(for="phone") Số điện thoại
+                input(id="phone" name="phone" type="text" class="form-control" value=record.phone) 
+            div(class="form-group" upload-image)
+                label(for="avatar") Avatar
+                input(id="avatar" name="avatar" type="file" class="form-control" accept="image/*" upload-image-input)
+                div(class="preview-image")
+                    img(upload-image-preview src=record.avatar)
+                    span(upload-image-close) x 
+            div(class="form-group")
+                label(for="permission") Phân quyền
+                select(id="permission" name="role_id" class="form-control")
+                    option(disabled selected) --Chọn quyền--
+                    each item in roles
+                        option(value=item.id selected = (record.role_id == item.id) ? true : false) #{item.title}
+            div(class="form-group form-check form-check-inline")
+                input(id="statusActive" name="status" type="radio" class="form-check-input" value="active" checked = (record.status=="active") ? true : false ) 
+                label(for="statusActive" class="form-check-label") Active
+            div(class="form-group form-check form-check-inline")
+                input(id="statusInactive" name="status" type="radio" class="form-check-input" value="inactive" checked = (record.status=="inactive") ? true : false) 
+                label(for="statusInactive" class="form-check-label") Inactive
+            div(class="form-group")
+                button(class="btn btn-primary btn-sm mt-1" type="submit") Update
+    else
+        a(
+            href=`${prefixAdmin}/role/create`
+            class="btn btn-outline-success btn-sm"
+        ) Tạo nhóm quyền
+
+    script(src="/admin/js/product.admin.js")
+     

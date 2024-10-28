@@ -1,0 +1,21 @@
+extends ../../layout/default
+block main
+    if(role.permissions.includes("role_view"))
+        if(role.permissions.includes("role_create")) 
+            h1 Tạo nhóm quyền
+            form(
+                id="form-create-role"
+                method="POST"
+                action=`${prefixAdmin}/role/create?_method=POST`
+            )
+                div(class="form-group")
+                    label(for="title") Tiêu đề 
+                    input(id="title" name="title" type="text" class="form-control") 
+                div(class="form-group")
+                    label(for="desc") Mô tả 
+                    textarea(id="desc" name="description" rows="5" class="form-control") 
+                div(class="form-group")
+                    button(class="btn btn-primary btn-sm w-100" type="submit") Tạo
+
+    script(src="/admin/js/product.admin.js")
+     

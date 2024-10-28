@@ -1,0 +1,38 @@
+extends ../../layout/default
+include ../../mixins/alert.pug
+block main
+    +alert(5000)
+    form(
+        id="form-edit-my-account"
+        method="POST"
+        action=`${prefixAdmin}/my-account/edit?_method=PATCH`
+        enctype="multipart/form-data"
+    )
+        div(class="form-group")
+            label(for="fullName") Họ tên
+            input(id="fullName" name="fullName" type="text" class="form-control" value=user.fullName)
+        div(class="form-group")
+            label(for="email") Email
+            input(id="email" name="email" type="email" class="form-control" value=user.email)
+        div(class="form-group")
+            label(for="password") Mật khẩu
+            input(id="password" name="password" type="password" class="form-control" placeholder="Nhập mật khẩu mới nếu muốn đổi")
+        div(class="form-group")
+            label(for="phone") Số điện thoại
+            input(id="phone" name="phone" type="text" class="form-control" value=user.phone)
+        div(class="form-group form-check form-check-inline")
+            input(id="statusActive" name="status" type="radio" class="form-check-input" value="active" checked = (user.status == "active" ? true : false)) 
+            label(for="statusActive" class="form-check-label") Hoạt động
+        div(class="form-group form-check form-check-inline")
+            input(id="statusInactive" name="status" type="radio" class="form-check-input" value="inactive" checked = (user.status == "inactive" ? true : false)) 
+            label(for="statusInactive" class="form-check-label") Dừng hoạt động
+        div(class="form-group" upload-image)
+            label(for="avatar") Ảnh đại diện
+            input(id="avatar" name="avatar" type="file" class="form-control-file" accept="image/*" upload-image-input)
+            div(class="preview-image")
+                img(upload-image-preview src=user.avatar)
+                span(upload-image-close) x 
+        div(class="form-group")
+            button(class="btn btn-primary btn-sm" type="submit") Update
+
+    script(src="/admin/js/product.admin.js") 

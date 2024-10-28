@@ -22,9 +22,7 @@
   list-style-type: none;
   justify-content: flex-end;
   flex-wrap: wrap;
-}
-.inner-menu ul li {
-  margin-left: 20px;
+  gap: 20px;
 }
 
 .footer {
@@ -78,6 +76,36 @@
   font-size: 17px;
   display: inline-block;
   border-radius: 10px;
+}
+
+.sub-menu {
+  position: relative;
+  z-index: 999;
+}
+.sub-menu ul {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  right: 0;
+  top: 100%;
+  background: #eae9e9;
+  min-width: 180px;
+  display: none;
+}
+.sub-menu ul li {
+  position: relative;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+.sub-menu ul li ul {
+  right: 100%;
+  top: 0;
+}
+.sub-menu ul li:hover > ul {
+  display: block;
+}
+.sub-menu:hover > ul {
+  display: block;
 }
 
 /*# sourceMappingURL=style.css.map */

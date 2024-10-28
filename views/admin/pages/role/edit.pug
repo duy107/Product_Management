@@ -1,0 +1,18 @@
+extends ../../layout/default
+block main
+    if(role.permissions.includes("role_view"))
+        if(role.permissions.includes("role_edit"))
+            h1 Chỉnh sửa
+            form(
+                id="form-edit-role"
+                method="POST"
+                action=`${prefixAdmin}/role/edit/${record.id}?_method=PATCH`
+            )
+                div(class="form-group")
+                    label(for="title") Tiêu đề 
+                    input(id="title" name="title" type="text" class="form-control" value=record.title) 
+                div(class="form-group")
+                    label(for="desc") Mô tả 
+                    textarea(id="desc" name="description" rows="5" class="form-control" value=record.description) #{record.description}
+                div(class="form-group")
+                    button(class="btn btn-primary btn-sm w-100" type="submit") Cập nhật

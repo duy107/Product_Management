@@ -1,0 +1,45 @@
+extends ../../layout/default
+include ../../mixins/alert.pug
+block main
+    if(role.permissions.includes("role_view"))
+        h1 Nhóm quyền
+        +alert(5000)
+        .card
+            .card-header Danh sách
+            .card-body.p-2
+                .row
+                    .col-8
+                    .col-4.text-end
+                        if(role.permissions.includes("role_create"))
+                            a(href=`${prefixAdmin}/role/create` class="btn btn-outline-success btn-sm") Thêm mới
+            
+                table(class="table table-hover table-sm")
+                    thead
+                        tr
+                            th STT
+                            th Nhóm quyền
+                            th Mô tả ngắn
+                            th Hành động
+                    tbody
+                        each item, index in records
+                            tr
+                                td #{index + 1}
+                                td #{item.title}
+                                td !{item.description}
+                                td
+                                    a(
+                                        class="btn btn-secondary btn-sm"
+                                        href = `${prefixAdmin}/role/detail/${item.id}`
+                                    ) Chi tiết
+                                    if(role.permissions.includes("role_edit"))
+                                        a(
+                                            class="btn btn-warning btn-sm ms-1"
+                                            href = `${prefixAdmin}/role/edit/${item.id}`
+                                        ) Sửa    
+                                    if(role.permissions.includes("role_delete"))                        
+                                        button(
+                                            class="btn btn-danger btn-sm ms-1"
+                                            data-id=item.id
+                                        ) Xóa
+
+        script(src="/admin/js/product.admin.js")

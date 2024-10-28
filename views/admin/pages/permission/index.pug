@@ -1,0 +1,59 @@
+extends ../../layout/default
+include ../../mixins/permission
+block main
+    h1 Phân quyền
+    - const roles = ["role_view", "role_create", "role_edit", "role_delete"];
+    - const products = ["products_view", "products_create", "products_edit", "products_delete"];
+    - const categories = ["products-category_view", "products-category_create", "products-category_edit", "products-category_delete"];
+    - const accounts = ["account_view", "account_create", "account_edit", "account_delete"];
+            //- each item, index in productCategory
+            //-     - const [name, value] = item.split("-")
+            //-     tr(data-name=`products-category_${value}`)
+            //-         td #{name}
+            //-         each subItem in records
+            //-             td.text-center
+            //-                 input(type="checkbox")
+    .text-end
+        button(class="btn btn-primary btn-sm" type="submit" button-submit) Cập nhật
+    div(data-records=records)
+    table(class="table table-hover table-sm" table-permission)
+        thead
+            tr
+                th Tính năng
+                each item in records
+                    th.text-center #{item.title}
+        tbody
+
+            tr(data-name="id" class="d-none")
+                td
+                each item in records
+                    td.text-center
+                        input(value=item.id)
+            //- Danh mục sản phẩm
+            +permission("Danh mục sản phẩm", categories)
+            //- sản phẩm
+            +permission("Sản phẩm", products)
+            //- nhóm quyền
+            +permission("Nhóm quyền", roles)
+            tr(data-name="role_permission")
+                td Phân quyền
+                each item in records
+                    td.text-center
+                        input(type="checkbox")
+            //- tai khoan
+            +permission("Tài khoản", accounts)
+    form(
+        id="form-change-permission"
+        method="POST"
+        action=`${prefixAdmin}/permission?_method=PATCH`
+        class="d-none"
+    )
+        div(class="form-group")
+            input(
+                name="permission"
+                type="text"
+                class="form-control"
+            )
+
+    script(src="/admin/js/product.admin.js")
+    script(src="/admin/js/permission.admin.js")
