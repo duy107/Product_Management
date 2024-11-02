@@ -1,0 +1,7 @@
+mixin alert(time)
+    -if (messages.error)
+        div(class="alert alert-danger" time-hidden=time show-alert) #{messages.error}
+            span(hidden-alert) x
+    -if (messages.success)
+        div(class="alert alert-success" time-hidden=time show-alert) #{messages.success}
+            span(hidden-alert) x

@@ -4,5 +4,6 @@ const controller = require("../../controllers/client/product.controller");
 const route = express.Router();
 
 route.get('/', controller.index);
-route.get('/:slug', controller.detail);
+route.get('/:slugCategory', controller.productByCategory);
+route.get('/detail/:slug', controller.detail);
 module.exports = route;

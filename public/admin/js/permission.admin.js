@@ -34,12 +34,53 @@ if (tablePermission) {
         }
     })
 
+    // permission all
+    const trAll = tablePermission.querySelector("tr[data-name='all']")
+    const inputAll = trAll.querySelectorAll("input");
+    const rows = tablePermission.querySelectorAll("[data-name]");
+    inputAll.forEach((item, index) => {
+        item.addEventListener("click", () => {
+            const checked = item.checked;
+            Array.from(rows).forEach(row => {
+                const name = row.getAttribute("data-name");
+                if (name !== "id" && name !== "all") {
+                    const inputs = row.querySelectorAll("input");
+                    const correspondingCheckbox = inputs[index];
+                    correspondingCheckbox.checked = checked;
+                }
+            })
+        })
+    }) 
+    Array.from(rows).forEach(row => {
+        const name = row.getAttribute("data-name");
+        if (name !== "id" && name !== "all") {
+            const inputs = row.querySelectorAll("input");
+
+            inputs.forEach((input, colIndex) => {
+                input.addEventListener("change", () => {
+                    // Kiểm tra trạng thái của tất cả checkbox trong cùng cột
+                    const isAllChecked = Array.from(rows)
+                        .filter(row => {
+                            const rowName = row.getAttribute("data-name");
+                            return rowName !== "id" && rowName !== "all";
+                        })
+                        .every(row => {
+                            const columnCheckbox = row.querySelectorAll("input")[colIndex];
+                            return columnCheckbox.checked;
+                        });
+
+                    // Cập nhật trạng thái checkbox "Tất cả" tương ứng
+                    inputAll[colIndex].checked = isAllChecked;
+                });
+            });
+        }
+    });
 }
 
 
 // permission checked
 const dataRecords = document.querySelector("[data-records]");
-if(dataRecords){
+if (dataRecords) {
     const records = JSON.parse(dataRecords.getAttribute("data-records"));
     records.forEach((item, index) => {
         item.permissions.forEach(subItem => {

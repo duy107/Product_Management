@@ -7,4 +7,4 @@ module.exports.productCategory = async (req, res, next) => {
     const productCategory = createTree(listCategory);
     res.locals.productCategory = productCategory;
     next();
-}
+} 

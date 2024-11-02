@@ -62,8 +62,8 @@ module.exports.product = async (req, res) => {
 
         const userLastUpdated = product.updatedBy.slice(-1)[0];
 
-        if(userLastUpdated){
-            const detail = await Account.findOne({_id: userLastUpdated.account_id});
+        if (userLastUpdated) {
+            const detail = await Account.findOne({ _id: userLastUpdated.account_id });
             userLastUpdated.fullName = detail.fullName;
         }
     }
@@ -156,27 +156,32 @@ module.exports.createProduct = async (req, res) => {
 }
 //[POST]: /admin/product/create-product
 module.exports.createProductPost = async (req, res) => {
-    const data = req.body;
-    data.price = parseInt(data.price);
-    data.quantity = parseInt(data.quantity);
-    data.discount = parseInt(data.discount);
+    const permissions = res.locals.role.permissions;
+    if (permissions.includes("products_create")) {
+        const data = req.body;
+        data.price = parseInt(data.price);
+        data.quantity = parseInt(data.quantity);
+        data.discount = parseInt(data.discount);
 
-    const numberProduct = await Product.countDocuments();
-    if (data.position == "") {
-        data.position = numberProduct + 1;
+        const numberProduct = await Product.countDocuments();
+        if (data.position == "") {
+            data.position = numberProduct + 1;
+        } else {
+            data.position = parseInt(data.position);
+        }
+
+        data.createdBy = {
+            account_id: res.locals.user.id
+        }
+        // if (req.file) {
+        //     data.image = `/uploads/${req.file.filename}`;
+        // }
+        const newProduct = new Product(data);
+        await newProduct.save();
+        res.redirect(`${config.prefixAdmin}/product`);
     } else {
-        data.position = parseInt(data.position);
+        res.send("Không có quyền");
     }
-
-    data.createdBy = {
-        account_id: res.locals.user.id
-    }
-    // if (req.file) {
-    //     data.image = `/uploads/${req.file.filename}`;
-    // }
-    const newProduct = new Product(data);
-    await newProduct.save();
-    res.redirect(`${config.prefixAdmin}/product`);
 }
 
 //[PATCH]: /admin/product/update/:id
@@ -219,7 +224,7 @@ module.exports.updatePatch = async (req, res) => {
         }
         await Product.updateOne({ _id: id }, {
             ...req.body,
-            $push: {updatedBy: updatedBy}
+            $push: { updatedBy: updatedBy }
         });
         res.redirect("back");
     } catch (error) {

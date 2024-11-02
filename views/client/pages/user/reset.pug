@@ -1,0 +1,22 @@
+extends ../../layout/default.pug
+include ../../mixins/alert.pug
+    block main
+        +alert(5000)
+        .container.my-5
+            .row.justify-content-center
+                .col-8
+                    h1.text-center Thay đổi mật khẩu
+                    form(
+                        method="POST"
+                        action=`/user/password/reset`
+                    ) 
+                        div(class="form-group") Mật khẩu mới
+                            label(for="password") 
+                            input(id="password" name="password" type="password" class="form-control") 
+                        div(class="form-group")
+                            label(for="confirmPassword") Xác thực mật khẩu
+                            input(id="confirmPassword" name="confirmPassword" type="password" class="form-control") 
+                        div(class="form-group")
+                            button(class="btn btn-primary btn-block" type="submit") Đổi mật khẩu
+            
+        script(src="/admin/js/product.admin.js")

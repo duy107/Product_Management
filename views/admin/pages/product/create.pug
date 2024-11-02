@@ -21,6 +21,13 @@ block main
                         option(value="") --Chọn danh mục--
                         if(records)
                         +treeCategory(records)
+                div Sản phẩm nổi bật    
+                div(class="form-group form-check form-check-inline")
+                    input(id="featured-1" name="featured" type="radio" class="form-check-input" value="1") 
+                    label(for="featured-1" class="form-check-label") Có
+                div(class="form-group form-check form-check-inline")
+                    input(id="featured-0" name="featured" type="radio" class="form-check-input" value="0" checked) 
+                    label(for="featured-0" class="form-check-label") Không
                 div(class="form-group")
                     label(for="desc") Mô tả 
                     textarea(id="desc" name="description" rows="5" class="form-control tinymce") 

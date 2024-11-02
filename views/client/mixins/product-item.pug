@@ -1,0 +1,13 @@
+mixin product-item(item)
+    .col-4.mb-3
+        .product-item
+            .product-item__image
+                img(src=item.image alt=item.title)
+                if(item.featured === "1")
+                    .product-item__featured Nổi bật
+            .product-item__content
+                a(href=`/product/detail/${item.slug}` class="text-decoration-none")
+                    h3.product-item__content__title #{item.title}
+                .product-item__content__price.new #{item.priceNew}$
+                .product-item__content__price.old #{item.price}$
+                .product-item__content__discount -#{item.discount}%

@@ -1,4 +1,45 @@
 extends ../../layout/default
+include ../../mixins/box-head.pug
+include ../../mixins/alert.pug
 block main
-    h1 Chi tiet san pham
-    div #{product}
+    +alert(5000)
+    .product-detail
+        .container.my-5
+            .row
+                .col-6
+                    .product-detail__img
+                        img(src=product.image alt=product.title)
+                .col-6
+                    h1.product-detail__title #{product.title}
+                    if(product.category)
+                        span Danh mục: 
+                        a(href=`/product/${product.category.slug}`) #{product.category.title} 
+                    if(product.newPrice)
+                        .product-detail__newPrice #{product.newPrice}$
+                    .product-detail__oldPrice #{product.price}$
+                    if(product.discount)
+                        div(class="product-detail__discount") Giảm tới <span> #{product.discount}% </span>
+                    if(product.quantity)
+                        div(class="product-detail__quantity my-3") Còn lại <span> #{product.quantity}</span> sản phẩm
+                    form(
+                        action=`/cart/add/${product.id}`
+                        method="POST"
+                    )
+                        input(
+                            class="form-control mb-2"
+                            type="number"
+                            name="quantity"
+                            value="1"
+                            min="1"
+                            max=product.quantity
+                        )
+                        button(
+                            type="submit"
+                            class="btn btn-success btn-block"
+                        ) Thêm vào giỏ hàng
+        .container.mb-5
+            .row
+                .col-12
+                    hr
+                    +box-head("Mô tả sản phẩm")
+                    div !{product.description}

@@ -1,0 +1,11 @@
+extends ../../layout/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/product-grid.pug
+block main
+    main.main
+            .container.my-3
+                +box-head("Kết quả tìm kiếm")
+                if (products.length > 0)
+                    +product-grid(products)
+                else
+                    h1(class="text-center") Không tìm thấy sản phẩm

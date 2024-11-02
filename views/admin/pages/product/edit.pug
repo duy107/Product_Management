@@ -20,7 +20,14 @@ block main
                     select(id="parent_id" name="category_id" class="form-control")
                         option(value="") --Chọn danh mục--
                         if(records)
-                        +treeCategory(records, 1, product.category_id) 
+                        +treeCategory(records, 1, product.category_id)
+                div Sản phẩm nổi bật    
+                div(class="form-group form-check form-check-inline")
+                    input(id="featured-1" name="featured" type="radio" class="form-check-input" value="1" checked = (product.featured === "1") ? true : false) 
+                    label(for="featured-1" class="form-check-label") Có
+                div(class="form-group form-check form-check-inline")
+                    input(id="featured-0" name="featured" type="radio" class="form-check-input" value="0" checked = (product.featured === "0") ? true : false) 
+                    label(for="featured-0" class="form-check-label") Không 
                 div(class="form-group")
                     label(for="desc") Mô tả 
                     textarea(id="desc" name="description" rows="5" class="form-control tinymce" value=product.description) #{product.description}

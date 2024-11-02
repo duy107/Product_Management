@@ -23,12 +23,16 @@ block main
                 each item in records
                     th.text-center #{item.title}
         tbody
-
             tr(data-name="id" class="d-none")
                 td
                 each item in records
                     td.text-center
                         input(value=item.id)
+            tr(data-name="all")
+                td.p-3 Tất cả
+                each rec in records
+                    td.p-3.text-center
+                        input(type="checkbox") 
             //- Danh mục sản phẩm
             +permission("Danh mục sản phẩm", categories)
             //- sản phẩm
