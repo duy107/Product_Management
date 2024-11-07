@@ -1,0 +1,53 @@
+extends ../../layout/default.pug
+include ../../mixins/box-head
+include ../../mixins/alert
+block css
+    link(rel="stylesheet" type="text/css" href="https://unpkg.com/file-upload-with-preview/dist/style.css")
+    link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.css")
+block main
+    .container
+        include ../../partials/box-friend.pug
+        .row.mb-3
+            .col-12.mb-3
+                +box-head(pageTitle)
+            .col-12
+                .chat(my-id=user.id)
+                    .chat__body
+                        each chat in chats
+                            div(class=(chat.user_id == user.id ? "chat__box chat__outgoing" : "chat__box chat__incomming"))
+                                div(class='btn btn-light btn-sm chat__delete' chat_id=chat.id) <i class='fa-solid fa-trash'></i>
+                                if (chat.user_id != user.id)
+                                    .chat__name #{chat.userInfor.fullName}
+                                if(chat.content)
+                                    .chat__content #{chat.content}
+                                if(chat.images.length > 0)
+                                    .chat__image
+                                        each img in chat.images
+                                            img(src=img)
+                        .chat__list-typing
+                    .chat__preview
+                        div(class="custom-file-container" data-upload-id="upload-images")
+                    .chat__foot
+                        form(
+                            action="#"
+                            class="chat__form"
+                        )
+                            input(
+                                type="text"
+                                placeholder="Enter message..."
+                                name="message"
+                            )
+                            label(class="btn btn-light btn-sm mx-1 mt-2" for="file-upload-with-preview-upload-images")
+                                <i class="fa-regular fa-image"></i> 
+                            span(class="button btn btn-light btn-sm mx-1")
+                                <i class="fa-regular fa-face-smile"></i>
+                            button
+                                i.fa-solid.fa-paper-plane
+
+        <div class="tooltip" role="tooltip">
+            <emoji-picker></emoji-picker>
+        </div>
+block script
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.js") 
+    script(src="/js/socket.js")
+    script(type="module" src="/js/chat.js")

@@ -9,10 +9,14 @@ include ../../mixins/alert.pug
                     form(
                         method="POST"
                         action=`/user/register`
+                         enctype="multipart/form-data"
                     ) 
                         div(class="form-group") Họ tên
-                            label(for="fullName") 
+                            label(for="fullName")
                             input(id="fullName" name="fullName" type="text" class="form-control")
+                        div(class="form-group")
+                            label(for="image") Ảnh đại diện
+                            input(id="image" name="avatar" type="file" class="form-control-file" accept="image/*")
                         div(class="form-group") Email
                             label(for="email") 
                             input(id="email" name="email" type="email" class="form-control") 

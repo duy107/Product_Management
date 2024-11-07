@@ -1,4 +1,5 @@
 const User = require("../../models/user.model");
+const Cart = require("../../models/cart.model");
 const Forgot = require("../../models/forgot-password.model");
 const helper = require("../../helpers/generate");
 const helperSendEmail = require("../../helpers/sendMail");
@@ -22,8 +23,8 @@ module.exports.registerPost = async (req, res) => {
     req.body.password = md5(req.body.password);
     const user = new User(req.body);
     await user.save();
-    res.cookie("tokenUser", user.tokenUser);
-    res.redirect("/");
+    // res.cookie("tokenUser", user.tokenUser);
+    res.redirect("/user/login");
 }
 
 module.exports.login = (req, res) => {
@@ -54,11 +55,23 @@ module.exports.loginPost = async (req, res) => {
         res.redirect("back");
         return;
     }
+    const cartId = req.cookies.cartId;
+    const cart = await Cart.findOne({ user_id: user.id });
+    if (cart) {
+        res.cookie("cartId", cart.id);
+    } else {
+        await Cart.updateOne({
+            _id: cartId
+        }, {
+            user_id: user.id
+        });
+    }
     res.cookie("tokenUser", user.tokenUser);
     res.redirect("/");
 }
 
 module.exports.logout = (req, res) => {
+    res.clearCookie("cartId");
     res.clearCookie("tokenUser");
     res.redirect("/");
 }
@@ -146,4 +159,10 @@ module.exports.resetPost = async (req, res) => {
         password: md5(password)
     })
     res.redirect("/");
+}
+
+module.exports.info = (req, res) => {
+    res.render("client/pages/user/info.pug", {
+        pageTitle: "Thông tin tài khoản"
+    })
 }

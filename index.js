@@ -51,10 +51,19 @@ const routeAdmin = require(`${__dirname}/routes/admin/index.route`);
 const mongo = require(`${__dirname}/config/database`);
 mongo.connect();
 
+// soket io
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+global._io = io; // tao bien cho toan bo project
+
 // goi cac ham route
 route(app);
 routeAdmin(app);
-
-app.listen(port, () => {
+app.get("*", (req, res) => {
+  res.render("client/pages/errors/404.pug")
+})
+server.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 })

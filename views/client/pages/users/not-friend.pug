@@ -1,0 +1,20 @@
+extends ../../layout/default.pug
+include ../../mixins/box-head
+include ../../mixins/alert
+block main
+    .container
+        include ../../partials/box-friend.pug
+        .row.mb-3
+            .col-12.mb-3
+                +box-head(pageTitle)
+            each item in users
+                .col-3.mb-2
+                    .users
+                        .users__img
+                            img(src=item.avatar alt=item.fullName)
+                        .users__infor
+                            .users__infor__name #{item.fullName}
+                            .users__infor__action
+                                button(class="btn btn-primary btn-sm mr-1 add" btn-add-friend=item.id) Kết bạn
+                                button(class="btn btn-secondary btn-sm mr-1" btn-cancel-friend=item.id) Hủy
+

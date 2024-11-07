@@ -1,0 +1,35 @@
+extends ../../layout/default
+include ../../mixins/alert
+block main
+        +alert(5000)
+        form(
+            method="POST"
+            action=`${prefixAdmin}/setting/general?_method=PATCH`
+            enctype="multipart/form-data"
+        )
+            div(class="form-group") Tên website
+                label(for="websiteName") 
+                input(id="websiteName" name="websiteName" type="text" class="form-control" value = (infor ? infor.websiteName : "")) 
+            div(class="form-group")
+                label(for="email") Email 
+                input(id="email" name="email" type="email" class="form-control" value = (infor ? infor.email : "")) 
+            div(class="form-group")
+                label(for="phone") Số điện thoại
+                input(id="phone" name="phone" type="text" class="form-control" value = (infor ? infor.phone : "")) 
+            div(class="form-group")
+                label(for="address") Địa chỉ
+                input(id="address" name="address" type="text" class="form-control" value = (infor ? infor.address : "")) 
+            div(class="form-group")
+                label(for="copyright") Copyright
+                input(id="copyright" name="copyright" type="text" class="form-control" value = (infor ? infor.copyright : "")) 
+            div(class="form-group" upload-image)
+                label(for="logo") Logo
+                input(id="logo" name="logo" type="file" class="form-control-file" accept="image/*" upload-image-input)
+                div(class="preview-image")
+                    img(upload-image-preview src=(infor ? infor.logo : ""))
+                    span(upload-image-close) x 
+            div(class="form-group")
+                button(class="btn btn-primary btn-sm mt-1" type="submit") Cài đặt lại
+
+
+        script(src="/admin/js/product.admin.js")

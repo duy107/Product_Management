@@ -181,4 +181,210 @@
   display: none;
 }
 
+.chat {
+  position: relative;
+  padding: 10px 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+.chat__body {
+  padding: 5px 0;
+  overflow-y: scroll;
+  max-height: 300px;
+}
+.chat__image img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  padding: 10px;
+  background: #ddd;
+  border-radius: 5px;
+  margin: 0px 5px 5px 0px;
+}
+.chat__delete {
+  position: absolute;
+  font-size: 10px;
+  background: transparent;
+  display: none;
+}
+.chat__incomming {
+  margin-left: 5px;
+  max-width: 200px;
+  position: relative;
+  animation: all 0.5s ease 0s;
+}
+.chat__incomming .chat__content {
+  background: #ddd;
+  padding: 0 5px;
+  border-radius: 10px;
+  margin-bottom: 5px;
+}
+.chat__incomming .chat__delete {
+  left: 100%;
+}
+.chat__incomming:hover .chat__delete {
+  display: inline-block;
+}
+.chat__outgoing {
+  margin-left: auto;
+  max-width: 200px;
+  position: relative;
+  animation: all 0.5s ease 0s;
+}
+.chat__outgoing .chat__content {
+  padding: 0 5px;
+  border-radius: 10px;
+  background: #FE5DA3;
+  color: #fff;
+  margin-bottom: 5px;
+}
+.chat__outgoing .chat__delete {
+  right: 100%;
+}
+.chat__outgoing:hover .chat__delete {
+  display: inline-block;
+}
+.chat__outgoing .chat__image {
+  margin-left: auto;
+  text-align: right;
+}
+.chat__outgoing .chat__image img {
+  margin: 0 0 5px 5px;
+}
+.chat__name {
+  font-weight: 600;
+}
+.chat__foot {
+  border-top: 1px solid #ddd;
+  position: sticky;
+  bottom: 0;
+  padding: 10px 10px 0;
+  z-index: 999;
+  background: #fff;
+}
+.chat__form {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-bottom: 10px;
+}
+.chat__form input {
+  flex: 1;
+  height: 32px;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  padding: 0 10px;
+  outline: none;
+}
+.chat__form button {
+  border-radius: 15px;
+  border: 1px solid #FE5DA3;
+  background: #FE5DA3;
+  color: #fff;
+  height: 32px;
+  padding: 0 10px;
+  cursor: pointer;
+}
+.chat__preview .label-container {
+  display: none;
+}
+.chat__preview .input-container {
+  display: none;
+}
+.chat__preview .image-preview {
+  height: auto;
+  padding: 0;
+  border-radius: 0;
+}
+.chat__preview .image-preview-item {
+  width: 90px;
+  background-size: contain;
+}
+
+.tooltip {
+  visibility: hidden;
+}
+.tooltip.shown {
+  visibility: visible;
+  opacity: 1;
+}
+
+.chat__list-typing {
+  position: relative;
+}
+.chat__box-typing__dots {
+  position: relative;
+  height: 20px;
+  width: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #efefef;
+  border-radius: 45px;
+  margin-top: 2px;
+}
+.chat__box-typing__dots span {
+  height: 5px;
+  width: 5px;
+  background-color: #252525;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0 3px;
+  animation: blink 1.5s infinite;
+}
+.chat__box-typing__dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.chat__box-typing__dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0.1;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}
+.users {
+  display: flex;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+.users [btn-cancel-friend] {
+  display: none;
+}
+.users.add [btn-add-friend] {
+  display: none;
+}
+.users.add [btn-cancel-friend] {
+  display: inline-block;
+}
+.users__img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #f2f2f2;
+  overflow: hidden;
+  margin-right: 10px;
+}
+.users__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.users__infor {
+  flex: 1;
+}
+.users__infor__name {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
 /*# sourceMappingURL=style.css.map */

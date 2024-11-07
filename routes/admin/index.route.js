@@ -6,6 +6,7 @@ const roleRoute = require("./role.route.js");
 const permissionRoute = require("./permission.route.js");
 const accountRoute = require("./account.route.js");
 const authnRoute = require("./auth.route.js");
+const settingRoute = require("./setting.route.js");
 const myAccountRoute = require("./my-account.route.js");
 const PATH_ADMIN = require("../../config/system.js");
 
@@ -20,6 +21,7 @@ module.exports = (app) => {
     app.use(`${PATH_ADMIN.prefixAdmin}/permission`, middleware.requireAuth, permissionRoute);
     app.use(`${PATH_ADMIN.prefixAdmin}/account`, middleware.requireAuth, accountRoute);
     app.use(`${PATH_ADMIN.prefixAdmin}/my-account`, middleware.requireAuth, myAccountRoute);
+    app.use(`${PATH_ADMIN.prefixAdmin}/setting`, middleware.requireAuth, settingRoute);
     app.use(`${PATH_ADMIN.prefixAdmin}/auth`, authnRoute);
 }
   

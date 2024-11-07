@@ -8,12 +8,20 @@ const userSchema = new mongoose.Schema({
     avatar: String,
     tokenUser: {
         type: String,
-        default: generate.generateToken(20)
+        default: () => generate.generateToken(20)
     },
     deleted: {
         type: Boolean,
         default: false
     },
+    requestFriends: Array,
+    acceptFriends: Array,
+    friendList: [
+        {
+            user_id: String,
+            room_chat_id: String
+        }
+    ],
     deletedAt: String,
     status: {
         type: String,
