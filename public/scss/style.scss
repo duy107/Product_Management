@@ -404,6 +404,11 @@
 }
 
 // end emoji-picker
+//viewer js
+.viewer-toolbar>ul>li{
+    background: #FE5DA3;
+}
+//end viewer js
 
 // .chat__list-typing
 .chat {
@@ -468,6 +473,7 @@
     border-radius:5px;
     border: 1px solid #ddd;
 
+    // cancel
     & [btn-cancel-friend]{
         display: none;
     }
@@ -478,7 +484,33 @@
     &.add [btn-cancel-friend]{
         display: inline-block;
     }
-
+    // refuse
+    & [btn-deleted-friend]{
+        display: none;
+    }
+    &.refuse [btn-accept-friend]{
+        display: none;
+    }
+    &.refuse [btn-refuse-friend]{
+        display: none;
+    }
+    &.refuse [btn-deleted-friend]{
+        display: inline-block;
+    }
+    //accept
+    & [btn-accepted-friend]{
+        display: none;
+    }
+    &.accepted [btn-accept-friend]{
+        display: none;
+    }
+    &.accepted [btn-refuse-friend]{
+        display: none;
+    }
+    &.accepted [btn-accepted-friend]{
+        display: inline-block;
+    }
+    
     &__img{
         width: 60px;
         height: 60px;

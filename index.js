@@ -1,6 +1,10 @@
 // cấu hình express
 const express = require('express');
 const app = express();
+
+app.use((req, res) => {
+      res.type('text/javascript');
+  });
 var path = require('path');
 const moment = require("moment");
 

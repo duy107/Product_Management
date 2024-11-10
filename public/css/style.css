@@ -309,6 +309,10 @@
   opacity: 1;
 }
 
+.viewer-toolbar > ul > li {
+  background: #FE5DA3;
+}
+
 .chat__list-typing {
   position: relative;
 }
@@ -363,6 +367,30 @@
   display: none;
 }
 .users.add [btn-cancel-friend] {
+  display: inline-block;
+}
+.users [btn-deleted-friend] {
+  display: none;
+}
+.users.refuse [btn-accept-friend] {
+  display: none;
+}
+.users.refuse [btn-refuse-friend] {
+  display: none;
+}
+.users.refuse [btn-deleted-friend] {
+  display: inline-block;
+}
+.users [btn-accepted-friend] {
+  display: none;
+}
+.users.accepted [btn-accept-friend] {
+  display: none;
+}
+.users.accepted [btn-refuse-friend] {
+  display: none;
+}
+.users.accepted [btn-accepted-friend] {
   display: inline-block;
 }
 .users__img {

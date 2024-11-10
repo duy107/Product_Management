@@ -4,7 +4,7 @@ include ../../mixins/alert
 block main
     .container
         include ../../partials/box-friend.pug
-        .row.mb-3.friends
+        .row.mb-3.friends(data-user-accept=user.id)
             .col-12.mb-3
                 +box-head(pageTitle)
             each item in users
@@ -15,8 +15,10 @@ block main
                         .users__infor
                             .users__infor__name #{item.fullName}
                             .users__infor__action
-                                button(class="btn btn-primary btn-sm mr-1" btn-add-friend=item.id) Kết bạn
-                                button(class="btn btn-secondary btn-sm mr-1" btn-cancel-friend=item.id) Hủy
+                                button(class="btn btn-primary btn-sm mr-1" btn-accept-friend=item.id) Chấp nhận
+                                button(class="btn btn-secondary btn-sm mr-1" btn-refuse-friend=item.id) Từ chối
+                                button(class="btn btn-secondary btn-sm mr-1" btn-deleted-friend disabled) Đã xóa
+                                button(class="btn btn-secondary btn-sm mr-1" btn-accepted-friend disabled) Đã chấp nhận
 block script
     script(type="module" src="/js/users.js")
 

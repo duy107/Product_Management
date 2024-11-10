@@ -1,6 +1,10 @@
 .row
     .col-12
         a(href="/users/notFriend" class="btn btn-primary btn-sm m-1") Danh sách người dùng
-        a(href="/users/friend" class="btn btn-primary btn-sm m-1") Danh sách bạn bè
-        a(href="/users/request" class="btn btn-primary btn-sm m-1") Lời mời đã gửi
-        a(href="/users/accept" class="btn btn-primary btn-sm m-1") Lời mời kết bạn
+        a(href="/users/isFriend" class="btn btn-primary btn-sm m-1") Danh sách bạn bè
+        a(href="/users/requestFriend" class="btn btn-primary btn-sm m-1")
+            | Lời mời đã gửi
+            span(class="badge badge-light" badge-users-request=user.id) #{user.requestFriends.length}
+        a(href="/users/acceptFriend" class="btn btn-primary btn-sm m-1")
+            | Lời mời kết bạn 
+            span(class="badge badge-light" badge-users-accept=user.id) #{user.acceptFriends.length}

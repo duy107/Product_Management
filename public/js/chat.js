@@ -41,17 +41,17 @@ if (boxTyping) {
             div.classList.add("chat__incomming");
             htmlBody = `<div class="chat__name"> ${data.fullName} </div>`;
         }
-        if(data.content){
+        if (data.content) {
             htmlContent = data.content;
         }
-        if(data.images.length > 0){
+        if (data.images.length > 0) {
             htmlImage = "<div class='chat__image'>";
-            for(const img of data.images){
+            for (const img of data.images) {
                 htmlImage += `<img src=${img}>`;
             }
             htmlImage += "</div>";
         }
-        if(htmlContent || htmlImage){
+        if (htmlContent || htmlImage) {
             htmlDelete += `<div class='btn btn-light btn-sm chat__delete' chat_id=${data.chatId}> <i class='fa-solid fa-trash'></i> </div>`
         }
         div.innerHTML = `
@@ -60,10 +60,11 @@ if (boxTyping) {
                         <div class="chat__content"> ${htmlContent} </div>
                         ${htmlImage}
                         `;
-        
+
         body.insertBefore(div, boxTyping);
         body.scrollTop = body.scrollHeight;
         const gallery = new Viewer(div);
+        deleteMessage();
     })
 }
 //END SERVER_RETURN_MESSAGE
@@ -102,7 +103,7 @@ document.querySelector('emoji-picker')
         const inputMessage = document.querySelector(".chat__form input[name='message']");
         inputMessage.value += e.detail.unicode;
         hanndleTyping();
-        
+
         inputMessage.setSelectionRange(inputMessage.value.length, inputMessage.length);
         inputMessage.focus();
     });
@@ -152,15 +153,18 @@ const bodyPreviewFullImage = document.querySelector(".chat__body");
 const gallery = new Viewer(bodyPreviewFullImage);
 
 // delete message
-const buttonDeleteMessage = document.querySelectorAll("[chat_id]");
-if(buttonDeleteMessage.length > 0){
-    buttonDeleteMessage.forEach(item => {
-        item.addEventListener("click", () => {
-            const chat_id = item.getAttribute("chat_id");
-            socket.emit("CLIENT_DELETE_MESSAGE", chat_id);
+const deleteMessage = () => {
+    const buttonDeleteMessage = document.querySelectorAll("[chat_id]");
+    if (buttonDeleteMessage.length > 0) {
+        buttonDeleteMessage.forEach(item => {
+            item.addEventListener("click", () => {
+                const chat_id = item.getAttribute("chat_id");
+                socket.emit("CLIENT_DELETE_MESSAGE", chat_id);
+            })
         })
-    })
+    }
 }
+deleteMessage();
 socket.on("SERVER_DELETE_MESSAGE", (chat_id) => {
     const bodyDelete = document.querySelector(".chat__body");
     const buttonDelete = document.querySelector(`div[chat_id="${chat_id}"]`);

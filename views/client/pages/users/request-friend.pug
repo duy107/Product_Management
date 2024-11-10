@@ -9,7 +9,7 @@ block main
                 +box-head(pageTitle)
             each item in users
                 .col-3.mb-2.friend-infor
-                    .users
+                    .users.add
                         .users__img
                             img(src=item.avatar alt=item.fullName)
                         .users__infor
@@ -18,5 +18,5 @@ block main
                                 button(class="btn btn-primary btn-sm mr-1" btn-add-friend=item.id) Kết bạn
                                 button(class="btn btn-secondary btn-sm mr-1" btn-cancel-friend=item.id) Hủy
 block script
-    script(type="module" src="/js/users.js")
+    script(wtype="module" src="/js/users.js")
 
